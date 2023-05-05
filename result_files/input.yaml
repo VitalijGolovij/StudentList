@@ -1,0 +1,49 @@
+---
+-
+    :name: Дор
+    :surname: Оррг
+    :patronymic: Нраа
+    :phone: "+71112223344"
+    :mail: a@mail.com
+    :telegram: "@dad"
+    :git: github.com/fa
+    :id: 3
+-
+    :name: Кирилл
+    :surname: Головт
+    :patronymic: Алогнф
+    :phone: "+78889996655"
+    :mail: isnn@iaunua.com
+    :telegram: "@jaaubyvq"
+    :git: github.com/kiwnoia
+    :id: 4
+-
+    :name: Кирилл
+    :surname: Горов
+    :patronymic: Авьевич
+    :phone: "+70001114477"
+    :mail: kirill@mail.com
+    :telegram: "@ksnws"
+    :git: github.com/kajnwn
+    :id: 5
+
+-
+    :name: Пор
+    :surname: Гамов
+    :patronymic: Додов
+    :phone: "+78956674114"
+    :mail: iiaon@mail.com
+    :telegram: "@uuvk"
+    :git: github.com/kbycrr
+    :id: 6
+
+-
+    :name: Даня
+    :surname: Жеков
+    :patronymic: Лолоевич
+    :phone: "+79815253366"
+    :mail: aoakia@mail.com
+    :telegram: "@piajiunba"
+    :git: github.com/iuaysuvwy
+    :id: 7
+...

@@ -1,0 +1,4 @@
+{"name":"Абв", "surname":"Где","patronymic":"Жзи","id":"1","git":"github.com/fa","phone":"+71112223344","mail":"a@mail.com","telegram":"@dad"}
+{"name":"Кирилл", "surname":"Горов","patronymic":"Авьевич","id":"2","git":"github.com/kajnwn","phone":"+70001114477","mail":"kirill@mail.com","telegram":"@ksnws"}
+{"name":"Пор", "surname":"Гамов","patronymic":"Додов","id":"3","git":"github.com/kbycrr","phone":"+78956674114","mail":"iiaon@mail.com","telegram":"@uuvk"}
+{"name":"Даня", "surname":"Жеков","patronymic":"Лолоевич","id":"4","git":"github.com/iuaysuvwy","phone":"+79815253366","mail":"aoakia@mail.com","telegram":"@piajiunba"}

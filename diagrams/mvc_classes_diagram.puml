@@ -1,0 +1,230 @@
+@startuml
+
+Class Data_list
+ {
+      -list: Array
+      -selected: Array
+ --
+      +{static}initialize(Array)
+      +select(Integer)
+      +get_selected(): Array
+      +get_data(): Data_table
+      -get_names(): Array
+      -fill_row(Array, Array): Array
+      -fill_table(Array, Array): Array
+..Сеттеры..
+      +list=(Array)
+  }
+
+Class Data_list_student_short
+ {
+ --
+      -get_names(): Array
+      -fill_row(Array, Array) :Array
++add_observer(Object)
++delete_observer(Object)
++notify
+..Setters..
++list=(Array)
+  }
+Class Student_list
+{
+--
++initialize(Student_list_Data_worker)
++get_student_by_id(Integer): Student
++get_k_n_student_short_list(Integer, Integer, Data_list): Student_short_data_list
++insert_student(Student)
++replace_by_id(Integer, Student)
++drop_by_id(Integer, Student)
++get_student_count: Integer
+}
+
+class Page_student
+{
+controller: Student_list_controller
+--
++initialize
++set_table_data(Data_table)
++set_table_params(Array, Integer)
+-make_filter_area
+-make_parametr_filter
+-make_table_area
+-make_manage_buttons
++reset_buttons
++get_id_selected_student(Integer)
++get_sel_start_row
++get_sel_end_row
++set_pages_counter(Integer, Integer)
+-add_student
+-edit_name
+-edit_git
+-edit_contact
+-delete_student
+-process_filters
+-process_select_cell
+-next_page
+-prev_bage
+-selected_empty_row?
+-selected_one_row?
+}
+
+class Student_list_controller
+{
+view: Page_student
+student_list: Student_list
+cur_table_page: Integer
+all_table_pages: Integer
+data_list_student_short: Data_list_student_short
+--
++refresh_data
++add_student(Input_student_window_fabric)
++delete_student
++edit_student(Input_student_window_fabric)
++set_page_counter
++next_page
++prev_page
++filter
++get_all_table_pages_count
++process_filters
+-get_student_from_row
+-set_page_counter
+-set_all_table_pagect_count(Data_list_student_short)
+}
+
+class Input_student_window
+{
+controller: student_window_controller
+--
+-add_terminating_buttons
+-add_input_textfields
+-add_event_on_textfields
+-block_fields
+-set_color
++ok_button_up
++ok_button_down
++get_name_text
++get_patronymic_text
++get_git_text
++get_mail_text
++get_telegram_text
++get_phone_text
++set_name_text
++set_patronymic_text
++set_git_text
++set_mail_text
++set_telegram_text
++set_phone_text
+}
+
+class Add_student_controller
+{
+view: Add_student_window
+--
++add_student
++change_button_state
++check_valid
++get_student_hash
+}
+
+class Edit_student_controller
+{
++accept_student
+}
+
+class Edit_student_controller
+{
++student: Student
+--
++accept_student
+-set_textfields
+}
+
+class Student_window_controller
+{
+view: Input_student_window
+--
++view=(Input_student_window)
++accept_student
++check_valid
++change_button_state
+}
+
+class Add_student_window
+{
+
+}
+
+class Edit_student_contact_window
+{
+--
+-block_fields
+-set_color
+}
+
+class Edit_student_name_window
+{
+--
+-block_fields
+-set_color
+}
+
+class Edit_student_git_window
+{
+--
+-block_fields
+-set_color
+}
+
+class Input_student_window_fabric
+{
+--
+{static} create
+}
+
+class Add_student_fabric
+{
+--
+create(Page_student): Add_student_window
+}
+
+class Edit_student_name_fabric
+{
+--
+create(Page_student, Student): Edit_student_name_window
+}
+
+class Edit_student_git_fabric
+{
+--
+create(Page_student, Student): Edit_student_git_window
+}
+
+class Edit_student_contacts_fabric
+{
+--
+create(Page_student, Student): Edit_student_contacts_window
+}
+
+
+Add_student_controller --|> Student_window_controller
+Edit_student_controller --|> Student_window_controller
+Data_list <|-- Data_list_student_short
+Student_list_controller --* Page_student
+Student_list_controller o-- Page_student
+Student_list --o Student_list_controller
+Data_list_student_short --o Student_list_controller
+Page_student o-- Input_student_window
+Student_window_controller --* Input_student_window
+Student_window_controller o-- Input_student_window
+
+Input_student_window_fabric <|-- Add_student_fabric
+Input_student_window_fabric <|-- Edit_student_name_fabric
+Input_student_window_fabric <|-- Edit_student_git_fabric
+Input_student_window_fabric <|-- Edit_student_contacts_fabric
+
+Input_student_window <|-- Add_student_window
+Input_student_window <|-- Edit_student_name_window
+Input_student_window <|-- Edit_student_git_window
+Input_student_window <|-- Edit_student_contact_window
+
+@enduml

@@ -1,0 +1,10 @@
+CREATE TABLE students (
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		surname VARCHAR(128) NOT NULL,
+		name VARCHAR(128) NOT NULL,
+		patronymic VARCHAR(128) NOT NULL,
+		git VARCHAR(128),
+		phone VARCHAR(20),
+		mail VARCHAR(128),
+		telegram VARCHAR(128)
+	);

@@ -1,0 +1,5 @@
+---
+  :host: localhost
+  :username: vitalijg
+  :password: 1111
+  :database: student

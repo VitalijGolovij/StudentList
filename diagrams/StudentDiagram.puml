@@ -1,0 +1,247 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+Class Student_short
+ {
+      -id: Integer
+      -name: String
+      -contact: String
+      -git: String
+ --
+      +{static}initialize(Integer, String)
+      +{static}from_student(Student)
+      +have_contact?(): Boolean
+      +have_git?(): Boolean
+      +validate?(): Boolean
+      .. Геттеры ..
+      +id(): Integer
+      +git(): String
+      +name(): String
+      +contact(): String
+      .. Сеттеры ..
+  }
+
+
+Class Student extends Student_short{
+     -surname: String
+     -patronymic: String
+     -phone: String
+     -mail: String
+     -telegram: String
+--
+     +{static}is_name?(String): Boolean
+     +{static}is_phone?(String): Boolean
+     +{static}is_telegram?(String): Boolean
+     +{static}is_mail?(String): Boolean
+     +{static}initialize(Hash)
+     +{static}from_json_str(String)
+     -{static}from_student(Student)
+     +set_contacts()
+     -get_any_contact(): String
+     +get_info(): String
+     +to_s(): String
+     .. Геттеры ..
+     +phone(): String
+     +telegram(): String
+     +mail(): String
+     +surname(): String
+     +patronymic(): String
+     .. Сеттеры ..
+     +id=(Integer)
+     +git=(String)
+     +phone=(String)
+     +telegram=(String)
+     +mail=(String)
+     +name=(String)
+     +surname=(String)
+     +patronymic=(String)
+ }
+
+Class Data_list
+ {
+      -list: Array
+      -selected: Array
+ --
+      +{static}initialize(Array)
+      +select(Integer)
+      +get_selected(): Array
+      +get_data(): Data_table
+      -get_names(): Array
+      -fill_row(Array, Array): Array
+      -fill_table(Array, Array): Array
+..Сеттеры..
+      +list=(Array)
+  }
+
+Class Data_list_student_short extends Data_list
+ {
+ --
+      -get_names(): Array
+      -fill_row(Array, Array) :Array
++add_observer(Object)
++delete_observer(Object)
++notify
+..Setters..
++list=(Array)
+  }
+
+Class Data_table
+ {
+      -table: Array
+ --
+      +{static}initialize(Array)
+      +get_elem(Integer, Integer): Object
+      +rows_count(): Integer
+      +columns_count(): Integer
+  }
+Class Student_list_file
+{
+-list: Array
++file_worker: Student_list_file_worker
++id_counter
+--
+      -initialize()
++read_from_file(String): Array
++write_to_file(String)
++write_to_file(String)
++set_file_worker(Student_list_file_worker)
+      +get_student_by_id(Integer): Student
+      +get_k_n_student_short_list(Integer, Integer, Data_list): Data_list_student_short
+      +sort_by_shortname()
+      +put_student(Student, Integer)
+      +replace_by_id(Integer)
+      +drop_by_id(Integer)
+      +get_student_short_count(): Integer
+}
+
+Class Student_list_file_adapter extends Student_list_data_worker
+{
+file_path: String
+student_list_file: Student_list_file
+--
++initialize(Student_list_file_worker, String)
++get_student_by_id(Integer): Student
++get_k_n_student_short_list(Integer, Integer, Data_list): Student_short_data_list
++insert_student(Student)
++replace_by_id(Integer, Student)
++drop_by_id(Integer, Student)
++get_student_count: Integer
+}
+
+Class Student_list
+{
+--
++initialize(Student_list_Data_worker)
++get_student_by_id(Integer): Student
++get_k_n_student_short_list(Integer, Integer, Data_list): Student_short_data_list
++insert_student(Student)
++replace_by_id(Integer, Student)
++drop_by_id(Integer, Student)
++get_student_count: Integer
+}
+abstract class Student_list_data_worker
+{
+--
+-initialize()
++get_student_by_id(Integer)
++get_k_n_student_short_list(Integer, Integer, Data_list)
++insert_student(Student)
++replace_by_id(Integer, Student)
++drop_by_id(Integer, Student)
++get_student_count
+}
+
+Class Student_list_file_worker
+{
+--
++read_from_file
++write_to_file
+}
+
+Class Student_list_txt extends Student_list_file_worker
+{
+--
++read_from_file(String): Array
++write_to_file(String, Hash)
+}
+
+Class Student_list_JSON extends Student_list_file_worker
+{
+--
++read_from_file(String): Array
++write_to_file(String, Hash)
+}
+
+Class Student_list_YAML extends Student_list_file_worker
+{
+--
++read_from_file(String): Array
++write_to_file(String, Hash)
+}
+Class Database_student_worker
+{
+db_worker: Mysql2::Client
+--
+-query_to_list(Strind): Array
+-args_to_string(Array): String
++select(String, Array): Array
++select_by_id(String, Integer, Array): Array
++insert(String, Hash)
++{static} get_instance (Hash): Database_student_worker
++delete_by_id(String, Integer)
++update_by_id(String, Integer, Hash)
+}
+Class Student_list_DB extends Student_list_data_worker
+{
+db_client: Database_student_worker
+--
+-initialise(Hash)
+
++insert_student(Student)
++replace_by_id(Integer, Student)
++drop_by_id(Integer)
++get_student_by_id(Integer): Student
++get_k_n_student_short_list(Integer, Intefer, Data_list): Data_list_student_short
++get_student_count: Integer
+}
+
+
+class Student_list_controller
+{
+view: Page_student
+student_list: Student_list
+cur_table_page: Integer
+all_table_pages: Integer
+data_list_student_short: Data_list_student_short
+--
++refresh_data
++add_student
++delete_student
++edit_student
++set_page_counter
++next_page
++prev_page
+}
+
+class Page_student
+{
+controller: Student_list_controller
+--
++initialize
++set_table_data(Data_table)
++set_table_params(Array, Integer)
+-make_filter_area
+-make_parametr_filter
+-make_table_area
+-make_manage_buttons
+}
+
+Student_list_controller o-- Student_list
+Student_list_controller --* Page_student
+Student_list_controller o-- Data_list_student_short
+Database_student_worker--*Student_list_DB
+Student_list_data_worker --* Student_list
+Student_list_file_worker --* Student_list_file
+Student_list_file --* Student_list_file_adapter
+Data_list_student_short --> Data_table
+Student_list_file *-- Student
+@enduml

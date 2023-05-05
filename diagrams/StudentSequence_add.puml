@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+actor       User                                as user
+boundary    "sp: Student_page"                  as sp
+control     "slc: Student_list_controller"      as slc
+boundary    "Add_student_fabric"           as asf
+boundary    "asw: Add_student_window"           as asw
+boundary    "asc: Add_student_controller"       as asc
+entity      "sl: Student_list"                  as sl
+entity      "dlss: Data_list_student_short"     as dlss
+
+user -> sp : click "add" button
+sp -> slc : add_student
+slc -> asf : create
+asf -> asw : <<new>>
+asw <-- asf
+asf -> asc : <<new>>
+asc --> asf
+slc <-- asf
+slc -> asw : show
+user <-- asw
+user -> asw : click <<Ok>>
+asw -> asc : add_student
+asc -> asc :check valid
+asc -> asc :get_student_hash
+asc -> sl : insert_student
+asc <-- sl
+asw <- asc : close
+slc <-- asw
+slc -> slc :refresh_data
+slc -> sl : get_k_n_student_short
+sl -> dlss : list=
+dlss -> dlss : notify
+sp <- dlss : set_table_params
+sp --> dlss
+sp <- dlss : set_table_data
+user <-- sp
+@enduml

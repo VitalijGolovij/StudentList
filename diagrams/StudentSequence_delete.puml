@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+actor       User                                as user
+boundary    "sp: Student_page"                  as sp
+control     "slc: Student_list_controller"      as slc
+entity      "sl: Student_list"                  as sl
+entity      "dlss: Data_list_student_short"     as dlss
+
+user -> sp : click "delete" button]
+sp -> slc : delete_student
+slc -> sl : drop_by_id
+sl --> slc :
+slc -> slc : refresh_data
+slc -> sl : get_k_n_student_short
+sl -> dlss : list=
+dlss -> dlss : notify
+sp <- dlss : set_table_params
+sp --> dlss
+sp <- dlss : set_table_data
+user <-- sp
+
+@enduml
