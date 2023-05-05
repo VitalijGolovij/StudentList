@@ -2,6 +2,7 @@
 require_relative '../Lists_models/student_list'
 require_relative '../Lists_models/student_list_file_adapter'
 require_relative '../Lists_models/student_list_json'
+require_relative '../Lists_models/student_list_yaml'
 require_relative '../Lists_models/student_list_db'
 require_relative '../view/input_student_window'
 require_relative '../Lists_models/data_list_student_short'
@@ -19,12 +20,8 @@ class Student_list_controller
     @students_count_on_page = 20
     @cur_table_page = 1
 
-    @student_list = Student_list.new(Student_list_file_adapter.new(Student_list_JSON.new, 'result_files/input.json'))
-    # @student_list = Student_list.new(Student_list_DB.new(YAML.load(File.open('database/config/connect_db_hash.yaml'))))
-
-    @data_list_student_short = @student_list.get_k_n_student_short_list(@students_count_on_page, @cur_table_page)
-    set_all_table_pages_count(@student_list.get_k_n_student_short_list(@student_list.get_students_count, 1))
-    @data_list_student_short.add_observer(@view)
+    set_src_controller
+    set_data_list_st_short
   end
 
   def refresh_data
@@ -86,6 +83,16 @@ class Student_list_controller
 
   def set_page_counter
     @view.set_pages_counter(@cur_table_page, @all_table_pages)
+  end
+
+  def set_src_controller
+    @student_list = Student_list.new(Student_list_file_adapter.new(Student_list_JSON.new, 'result_files/input.json'))
+  end
+
+  def set_data_list_st_short
+    @data_list_student_short = @student_list.get_k_n_student_short_list(@students_count_on_page, @cur_table_page)
+    set_all_table_pages_count(@student_list.get_k_n_student_short_list(@student_list.get_students_count, 1))
+    @data_list_student_short.add_observer(@view)
   end
 
   def filter

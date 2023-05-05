@@ -3,6 +3,10 @@ require_relative 'page'
 require_relative '../Lists_models/student_list_file'
 require_relative '../Lists_models/student_list_json'
 require_relative '../controller/student_list_controller'
+require_relative '../controller/student_list_controller_json'
+require_relative '../controller/student_list_controller_db'
+require_relative '../controller/student_list_controller_yaml'
+require_relative '../controller/student_list_controller_factory'
 require_relative 'add_student_fabric'
 require_relative 'edit_student_name_fabric'
 require_relative 'edit_student_git_fabric'
@@ -15,6 +19,7 @@ class Page_students < Page
               :controller, :shortname_field, :add_button,
               :delete_button, :edit_button, :edit_git_button,
               :edit_name_button, :edit_contact_button
+  SRC_TEXT=%[JSON YAML TXT DB]
   def initialize(parent)
     super(parent, 'students list')
     @parameters_fields = Hash.new
@@ -98,6 +103,11 @@ class Page_students < Page
 
   def process_filters
     @controller.process_filters
+  end
+
+  def change_controller(src_text)
+    @controller = Student_list_controller_factory.create(self, src_text)
+    @controller.refresh_data
   end
 
   def process_select_cell
@@ -225,6 +235,16 @@ class Page_students < Page
     @delete_button = FXButton.new(v_frame, 'Delete')
     @delete_button.connect(SEL_COMMAND) do
       delete_student
+    end
+
+
+    FXLabel.new(v_frame, 'Data source:')
+
+    @src_cmb_box = FXComboBox.new(v_frame, 4,
+                                  :opts => COMBOBOX_STATIC|FRAME_SUNKEN|FRAME_THICK)
+    @src_cmb_box.fillItems(['JSON','DB','YAML'])
+    @src_cmb_box.connect(SEL_COMMAND) do
+      change_controller(@src_cmb_box.text)
     end
   end
 end
